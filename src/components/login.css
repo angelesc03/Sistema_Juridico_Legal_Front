@@ -1,0 +1,83 @@
+/* Centrado de pantalla */
+.login-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #afdbf8;
+}
+
+/* Recuadro principal */
+.login-card {
+  background-color: #e0f2ff;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.25);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+/* Título */
+.login-title {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #0077cc;
+}
+
+/* Grupos del formulario */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Botón */
+.submit-button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #005ecb;
+}
+
+/* Error */
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Texto de registro */
+.register-text {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -1,0 +1,67 @@
+/* home.css */
+
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  /*
+   * Establece la imagen de fondo y el degradado.
+   * El 'linear-gradient' se superpone a la imagen.
+   * Ajusta los colores y la opacidad (último valor en rgba) del degradado
+   * según la imagen y el efecto deseado.
+   * El color actual (175, 219, 248) es el #afdbf8 que ya tenías.
+   */
+  background-image: linear-gradient(
+    rgba(188, 221, 243, 0.5), /* Inicio del degradado (más transparente) */
+    rgba(175, 219, 248, 0.8)   /* Fin del degradado (más opaco) */
+  ), url('../assets/sworn_wallpaper.png'); /* Ruta a tu imagen de fondo */
+
+  /* Asegura que la imagen de fondo cubra todo el contenedor */
+  background-size: cover;
+  /* Centra la imagen de fondo */
+  background-position: center;
+  /* Evita que la imagen de fondo se repita */
+  background-repeat: no-repeat;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1f2d3d; /* Un color oscuro para el texto */
+  margin-bottom: 2rem;
+  text-align: center;
+  /* Asegura que el título esté por encima del fondo */
+  position: relative;
+  z-index: 1;
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+  /* Asegura que el contenedor de botones esté por encima del fondo */
+  position: relative;
+  z-index: 1;
+}
+
+.main-button {
+  background-color: #2c3e50; /* Color de fondo oscuro para el botón */
+  color: white; /* Texto blanco en el botón */
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
+  /* Asegura que el botón esté por encima del fondo */
+  position: relative;
+  z-index: 1;
+}
+
+.main-button:hover {
+  background-color: #1a252f; /* Color más oscuro al pasar el mouse */
+}
