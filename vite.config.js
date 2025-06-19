@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/prototipo_sistema_juridico_legal/'
+  base: '/Sistema_Juridico_Legal_Front/'
 })
