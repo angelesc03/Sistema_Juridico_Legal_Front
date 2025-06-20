@@ -93,7 +93,8 @@ const RegisterPage = () => {
       };
 
       // Enviamos la solicitud a tu endpoint de Flask
-      const response = await axios.post('http://localhost:5000/api/registro', requestData);
+      const response = await axios.post('https://sistema-juridico-legal-backend.onrender.com/api/registro', requestData);
+
 
       if (response.data.success) {
         Swal.fire({
