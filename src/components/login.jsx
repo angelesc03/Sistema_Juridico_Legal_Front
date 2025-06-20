@@ -28,15 +28,34 @@ const LoginPage = () => {
       const response = await axios.post('https://tu-backend.com/api/login', credentials);
       
       if (response.data.success) {
+        // Mensaje personalizado según el rol
+        let mensajeBienvenida = '';
+        switch(response.data.rol_id) {
+          case 1:
+            mensajeBienvenida = `Bienvenido Administrador ${response.data.nombre_completo}`;
+            break;
+          case 2:
+            mensajeBienvenida = `Bienvenida Autoridad ${response.data.nombre_completo}`;
+            break;
+          case 3:
+            mensajeBienvenida = `Bienvenido ${response.data.nombre_completo}`;
+            break;
+          default:
+            mensajeBienvenida = 'Bienvenido al sistema';
+        }
+
         Swal.fire({
-          title: '¡Bienvenido!',
-          text: response.data.message,
+          title: '¡Acceso concedido!',
+          text: mensajeBienvenida,
           icon: 'success',
-          timer: 2000,
+          timer: 3000,
           showConfirmButton: false
         }).then(() => {
-          // Aquí guardarías el token/usuario en el estado global o localStorage
-          // y redirigirías al dashboard
+          // Aquí guardarías los datos del usuario en el estado global o localStorage
+          // Ejemplo:
+          // localStorage.setItem('userData', JSON.stringify(response.data));
+          
+          // Redirección temporal (luego se hará según el rol)
           // navigate('/dashboard');
         });
       }
