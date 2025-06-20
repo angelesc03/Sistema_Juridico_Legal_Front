@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css'; 
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({
     email: '',
     contrasena: ''
   });
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,22 +20,73 @@ const LoginPage = () => {
     });
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  Swal.fire({
-    title: 'Sus credenciales se encuentran en proceso de validación ...',
-    text: 'En poco tiempo podrá acceder al sistema',
-    icon: 'info',
-    timer: 3500,
-    showConfirmButton: false
-  });
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const response = await axios.post('https://tu-backend.com/api/login', credentials);
+      
+      if (response.data.success) {
+        Swal.fire({
+          title: '¡Bienvenido!',
+          text: response.data.message,
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          // Aquí guardarías el token/usuario en el estado global o localStorage
+          // y redirigirías al dashboard
+          // navigate('/dashboard');
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        const { data, status } = error.response;
+        
+        if (status === 404 && data.codigo === 1) {
+          Swal.fire({
+            title: 'Usuario no encontrado',
+            text: 'El correo no está registrado. Por favor regístrese primero.',
+            icon: 'error'
+          });
+        } else if (status === 403 && data.codigo === 2) {
+          Swal.fire({
+            title: 'Validación pendiente',
+            text: data.message,
+            icon: 'info',
+            timer: 3500,
+            showConfirmButton: false
+          });
+        } else if (status === 401 && data.codigo === 3) {
+          Swal.fire({
+            title: 'Credenciales inválidas',
+            text: 'La contraseña ingresada es incorrecta',
+            icon: 'error'
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error inesperado',
+            icon: 'error'
+          });
+        }
+      } else {
+        Swal.fire({
+          title: 'Error de conexión',
+          text: 'No se pudo conectar con el servidor',
+          icon: 'error'
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <h2 className="login-title">Iniciar Sesión</h2>
-        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
@@ -44,6 +96,7 @@ const handleSubmit = (e) => {
               value={credentials.email}
               onChange={handleChange}
               required
+              disabled={loading}
             />
           </div>
           <div className="form-group">
@@ -54,9 +107,16 @@ const handleSubmit = (e) => {
               value={credentials.contrasena}
               onChange={handleChange}
               required
+              disabled={loading}
             />
           </div>
-          <button type="submit" className="submit-button">Ingresar</button>
+          <button 
+            type="submit" 
+            className="submit-button"
+            disabled={loading}
+          >
+            {loading ? 'Validando...' : 'Ingresar'}
+          </button>
         </form>
         <p className="register-text">
           ¿No tienes cuenta?{' '}
