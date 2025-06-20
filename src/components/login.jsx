@@ -25,7 +25,7 @@ const LoginPage = () => {
     setLoading(true);
     
     try {
-      const response = await axios.post('https://sistema-juridico-legal-backend.onrender.com/api/registro', credentials);
+      const response = await axios.post('https://sistema-juridico-legal-backend.onrender.com/api/login', credentials);
       
       if (response.data.success) {
         // Mensaje personalizado según el rol
