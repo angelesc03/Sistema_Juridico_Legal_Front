@@ -1,9 +1,11 @@
 /* Estilo general del contenedor */
 .admin-container {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #afdbf8;
-    padding: 20px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #afdbf8;
 }
 
 /* Encabezado */
