@@ -51,12 +51,31 @@ const LoginPage = () => {
           timer: 3000,
           showConfirmButton: false
         }).then(() => {
+          // ***********************************************************************
           // Aquí guardarías los datos del usuario en el estado global o localStorage
           // Ejemplo:
           // localStorage.setItem('userData', JSON.stringify(response.data));
           
           // Redirección temporal (luego se hará según el rol)
           // navigate('/dashboard');
+          // ***********************************************************************
+
+          if (response.data.success) {
+              // ... mensaje de bienvenida ...
+              
+              // Guardar datos en localStorage
+              localStorage.setItem('userData', JSON.stringify(response.data));
+              
+              // Redirección según rol
+              if (response.data.rol_id === 1) {
+                  navigate('/admin');
+              } else if (response.data.rol_id === 2) {
+                  navigate('/autoridad');
+              } else {
+                  navigate('/usuario');
+              }
+          }
+          
         });
       }
     } catch (error) {
