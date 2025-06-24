@@ -1,11 +1,10 @@
 .user-dashboard-container {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #afdbf8;
-    padding: 20px;
-    box-sizing: border-box;
+  width: 100%; /* Ocupa el 100% del ancho del contenedor padre */
+  min-height: 100vh; /* Ocupa al menos el 100% del alto del viewport */
+  background-color: #afdbf8;
+  padding: 20px;
+  box-sizing: border-box;
 }
-
 .user-header {
     background-color: #e0f2ff;
     padding: 20px;
