@@ -5,7 +5,25 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #afdbf8;
+
+    /*
+   * Establece la imagen de fondo y el degradado.
+   * El 'linear-gradient' se superpone a la imagen.
+   * Ajusta los colores y la opacidad (último valor en rgba) del degradado
+   * según la imagen y el efecto deseado.
+   * El color actual (175, 219, 248) es el #afdbf8 que ya tenías.
+   */
+  background-image: linear-gradient(
+    rgba(188, 221, 243, 0.5), /* Inicio del degradado (más transparente) */
+    rgba(175, 219, 248, 0.8)   /* Fin del degradado (más opaco) */
+  ), url('../assets/sworn_wallpaper.png'); /* Ruta a tu imagen de fondo */
+
+  /* Asegura que la imagen de fondo cubra todo el contenedor */
+  background-size: cover;
+  /* Centra la imagen de fondo */
+  background-position: center;
+  /* Evita que la imagen de fondo se repita */
+  background-repeat: no-repeat;
 }
 
 /* Recuadro principal */

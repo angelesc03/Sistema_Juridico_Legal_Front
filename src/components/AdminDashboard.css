@@ -1,10 +1,10 @@
 /* Estilo general del contenedor */
 .admin-container {
-  width: 100vw; /* Asegura que ocupe todo el ancho del viewport */
-  min-height: 100vh; /* Asegura que ocupe al menos el 100% del alto del viewport */
+  width: 100vw;
+  min-height: 100vh;
   background-color: #afdbf8;
-  padding: 20px; /* Mantén tu padding original */
-  /* Elimina display: flex, justify-content y align-items para que los elementos internos no se centren automáticamente */
+  padding: 20px;
+  box-sizing: border-box; /* ¡Esta es la clave! */
 }
 
 /* Encabezado */
