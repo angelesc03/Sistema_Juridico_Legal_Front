@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LevantarDemanda from './LevantarDemanda';
 import './UserDashboard.css';
+import SeguimientoDemandas from './SeguimientoDemandas';
 
 const UserDashboard = () => {
     const [activeTab, setActiveTab] = useState('levantar');
@@ -38,7 +39,7 @@ const UserDashboard = () => {
             
             <div className="user-content">
                 {activeTab === 'levantar' && <LevantarDemanda />}
-                {activeTab === 'seguimiento' && <div>Seguimiento de demandas (próximamente)</div>}
+                {activeTab === 'seguimiento' && <SeguimientoDemandas />}
             </div>
         </div>
     );
