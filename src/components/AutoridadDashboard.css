@@ -1,0 +1,79 @@
+.autoridad-dashboard {
+width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* o center si quieres centrar todo verticalmente */
+    background-color: #e0f2ff;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.autoridad-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.autoridad-tabs button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.autoridad-tabs .active {
+  background-color: #004a9e;
+}
+
+.grid-demandas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.tarjeta-demanda {
+  background-color: #e6f0ff;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.tarjeta-demanda:hover {
+  transform: scale(1.02);
+}
+
+.lista-casos-activos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fila-caso-activo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e6f0ff;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.estatus {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+}
+.estatus.registrada { background-color: #007bff; }
+.estatus.en_proceso { background-color: #ffc107; }
+.estatus.resuelta { background-color: #28a745; }
+
+.mensaje-vacio {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+}
