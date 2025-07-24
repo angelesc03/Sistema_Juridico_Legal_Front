@@ -1,5 +1,5 @@
 /* Contenedor general que ocupa toda la pantalla */
-/*Estilo modificado */
+/*Estilo modificado para adaptarse a toda la pantalla*/
 .levantar-demanda-container {
     width: 100vw;
     min-height: 100vh;
