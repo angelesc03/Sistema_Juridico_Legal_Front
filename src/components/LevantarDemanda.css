@@ -1,28 +1,46 @@
+/* Contenedor general que ocupa toda la pantalla */
 .levantar-demanda-container {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* o center si quieres centrar todo verticalmente */
     background-color: #e0f2ff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    padding: 40px 20px;
     box-sizing: border-box;
 }
 
+/* Título */
 .levantar-demanda-container h2 {
     color: #0077cc;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
+/* Estilo para el folio */
 .folio {
     background-color: #007bff;
     color: white;
     padding: 8px 12px;
     border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-weight: bold;
 }
 
+/* Estilo del formulario */
+.levantar-demanda-container form {
+    width: 100%;
+    max-width: 800px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    box-sizing: border-box;
+}
+
+/* Secciones del formulario */
 .form-section {
     margin-bottom: 30px;
     padding: 20px;
@@ -37,6 +55,7 @@
     border-bottom: 1px solid #d0e3ff;
 }
 
+/* Grupo de campos */
 .form-group {
     margin-bottom: 15px;
 }
@@ -56,6 +75,7 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .form-group textarea {
@@ -63,6 +83,7 @@
     resize: vertical;
 }
 
+/* Botón */
 .submit-button {
     display: block;
     width: 100%;
@@ -83,4 +104,15 @@
 .submit-button:disabled {
     background-color: #6c757d;
     cursor: not-allowed;
+}
+
+/* Media query para responsividad */
+@media (max-width: 768px) {
+    .levantar-demanda-container {
+        padding: 20px 10px;
+    }
+
+    .levantar-demanda-container form {
+        padding: 20px;
+    }
 }
