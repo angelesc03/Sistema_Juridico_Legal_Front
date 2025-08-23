@@ -27,7 +27,7 @@ const AutoridadDashboard = () => {
 
   const obtenerCasosActivos = async () => {
     try {
-      const res = await axios.get('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${personaId}');
+      const res = await axios.get(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${personaId}`);
       setCasosActivos(res.data.demandas);
     } catch (err) {
       console.error(err);
@@ -49,7 +49,7 @@ const AutoridadDashboard = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.put('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/asignar/${demanda.id}', {
+        await axios.put(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/asignar/${demanda.id}`, {
           autoridad_id: personaId
         });
 
