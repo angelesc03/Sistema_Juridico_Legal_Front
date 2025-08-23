@@ -18,8 +18,7 @@ const AutoridadDashboard = () => {
 
   const obtenerDemandasPendientes = async () => {
     try {
-      const res = await axios.get('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/pendientes');
-      console.log(res); 
+      const res = await axios.get('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/pendientes'); 
       setDemandasPendientes(res.data.demandas);
     } catch (err) {
       console.error(err);
