@@ -9,52 +9,41 @@ const AutoridadDashboard = () => {
   const [demandasPendientes, setDemandasPendientes] = useState([]);
   const [casosActivos, setCasosActivos] = useState([]);
   const [autoridadNombre, setAutoridadNombre] = useState('');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
 
-
+  // Validación del usuario al cargar
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
-    setUserData(storedData);
-  }, []);
 
-
-
-
-  useEffect(() => {
-    if (!userData) return; // Esperar a que esté disponible
-
-    if (userData.rol_id !== 1) {
+    if (!storedData || storedData.rol_id !== 2) {
       navigate('/login');
       return;
     }
 
-    setAutoridadNombre(userData.nombre_completo);
-    obtenerDemandasPendientes();
-    obtenerCasosActivos();
-  }, [userData]);
+    setAutoridadNombre(storedData.nombre_completo);
+    cargarDatos(storedData.persona_id);
+  }, []);
 
-  const obtenerDemandasPendientes = async () => {
+  const cargarDatos = async (personaId) => {
     try {
-      const res = await axios.get('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/pendientes'); 
-      setDemandasPendientes(res.data.demandas);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+      const [resPendientes, resActivos] = await Promise.all([
+        axios.get('https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/pendientes'),
+        axios.get(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${personaId}`)
+      ]);
 
-  const obtenerCasosActivos = async () => {
-    if (!userData?.persona_id) return;
-
-    try {
-      const res = await axios.get(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${userData.persona_id}`);
-      setCasosActivos(res.data.demandas);
-    } catch (err) {
-      console.error(err);
+      setDemandasPendientes(resPendientes.data.demandas);
+      setCasosActivos(resActivos.data.demandas);
+    } catch (error) {
+      Swal.fire('Error', 'No se pudieron cargar los datos del servidor.', 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
   const asignarDemanda = async (demanda) => {
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+
     const confirm = await Swal.fire({
       title: `Folio: ${demanda.folio}`,
       html: `
@@ -70,12 +59,11 @@ const AutoridadDashboard = () => {
     if (confirm.isConfirmed) {
       try {
         await axios.put(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/asignar/${demanda.id}`, {
-          autoridad_id: userData.persona_id  
+          autoridad_id: storedData.persona_id
         });
 
         Swal.fire('¡Caso asignado!', 'La demanda fue asignada exitosamente.', 'success');
-        obtenerDemandasPendientes();
-        obtenerCasosActivos();
+        cargarDatos(storedData.persona_id);
       } catch (error) {
         Swal.fire('Error', 'No se pudo asignar la demanda.', 'error');
       }
@@ -85,19 +73,19 @@ const AutoridadDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('userData');
     navigate('/login');
-  }
+  };
 
   return (
     <div className="autoridad-dashboard">
-      <div className = 'autoridad-header'>
+      <div className="autoridad-header">
         <h1>Autoridad Judicial: {autoridadNombre}</h1>
-        <div className='autoridad-menu'>
-            <button className="menu-button active">Demandas pendientes</button>
-            <button className="menu-button" onClick={handleLogout}>Cerrar Sesión</button>
+        <div className="autoridad-menu">
+          <button className="menu-button active">Demandas</button>
+          <button className="menu-button" onClick={handleLogout}>Cerrar Sesión</button>
         </div>
       </div>
-      {/* A partir de aquí es donde comienza la parte de la administración */}
-      <div className="autoridad-tabs"> 
+
+      <div className="autoridad-tabs">
         <button className={activeTab === 'pendientes' ? 'active' : ''} onClick={() => setActiveTab('pendientes')}>
           Demandas pendientes
         </button>
@@ -106,34 +94,48 @@ const AutoridadDashboard = () => {
         </button>
       </div>
 
-      {activeTab === 'pendientes' && (
-        <div className="grid-demandas">
-          {demandasPendientes.length === 0 ? (
-            <p className="mensaje-vacio">Actualmente no hay procesos legales sin atender.</p>
-          ) : (
-            demandasPendientes.map((demanda) => (
-              <div key={demanda.id} className="tarjeta-demanda" onClick={() => asignarDemanda(demanda)}>
-                <p><strong>Folio:</strong> {demanda.folio}</p>
-                <p><strong>Tipo:</strong> {demanda.tipo_accion}</p>
-                <p><strong>Fecha:</strong> {demanda.fecha_creacion}</p>
-              </div>
-            ))
-          )}
-        </div>
-      )}
-
-      {activeTab === 'activos' && (
-        <div className="lista-casos-activos">
-          {casosActivos.map((demanda) => (
-            <div key={demanda.id} className="fila-caso-activo">
-              <div>
-                <p><strong>Folio:</strong> {demanda.folio}</p>
-                <p><strong>Tipo:</strong> {demanda.tipo_accion}</p>
-              </div>
-              <span className={`estatus ${demanda.estatus.toLowerCase()}`}>{demanda.estatus}</span>
+      {loading ? (
+        <p className="mensaje-vacio">Cargando datos...</p>
+      ) : (
+        <>
+          {activeTab === 'pendientes' && (
+            <div className="grid-demandas">
+              {demandasPendientes.length === 0 ? (
+                <p className="mensaje-vacio">No hay demandas pendientes.</p>
+              ) : (
+                demandasPendientes.map((demanda) => (
+                  <div
+                    key={demanda.id}
+                    className="tarjeta-demanda"
+                    onClick={() => asignarDemanda(demanda)}
+                  >
+                    <p><strong>Folio:</strong> {demanda.folio}</p>
+                    <p><strong>Tipo:</strong> {demanda.tipo_accion}</p>
+                    <p><strong>Fecha:</strong> {demanda.fecha_creacion}</p>
+                  </div>
+                ))
+              )}
             </div>
-          ))}
-        </div>
+          )}
+
+          {activeTab === 'activos' && (
+            <div className="lista-casos-activos">
+              {casosActivos.length === 0 ? (
+                <p className="mensaje-vacio">No tienes casos activos asignados.</p>
+              ) : (
+                casosActivos.map((demanda) => (
+                  <div key={demanda.id} className="fila-caso-activo">
+                    <div>
+                      <p><strong>Folio:</strong> {demanda.folio}</p>
+                      <p><strong>Tipo:</strong> {demanda.tipo_accion}</p>
+                    </div>
+                    <span className={`estatus ${demanda.estatus.toLowerCase()}`}>{demanda.estatus}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
