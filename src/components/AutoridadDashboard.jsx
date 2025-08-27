@@ -9,23 +9,30 @@ const AutoridadDashboard = () => {
   const [demandasPendientes, setDemandasPendientes] = useState([]);
   const [casosActivos, setCasosActivos] = useState([]);
   const [autoridadNombre, setAutoridadNombre] = useState('');
-
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  const personaId = userData?.persona_id;
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
 
   useEffect(() => {
-    // obtener el nombre de la autoridad judicial del localstorage
-    //const userData
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    setUserData(storedData);
+  }, []);
 
-    if (!userData || userData.rol_id !== 1) {
+
+
+
+  useEffect(() => {
+    if (!userData) return; // Esperar a que esté disponible
+
+    if (userData.rol_id !== 1) {
       navigate('/login');
-      return; 
+      return;
     }
+
     setAutoridadNombre(userData.nombre_completo);
     obtenerDemandasPendientes();
     obtenerCasosActivos();
-  }, []);
+  }, [userData]);
 
   const obtenerDemandasPendientes = async () => {
     try {
@@ -37,8 +44,10 @@ const AutoridadDashboard = () => {
   };
 
   const obtenerCasosActivos = async () => {
+    if (!userData?.persona_id) return;
+
     try {
-      const res = await axios.get(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${personaId}`);
+      const res = await axios.get(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/activos/${userData.persona_id}`);
       setCasosActivos(res.data.demandas);
     } catch (err) {
       console.error(err);
@@ -61,7 +70,7 @@ const AutoridadDashboard = () => {
     if (confirm.isConfirmed) {
       try {
         await axios.put(`https://sistema-juridico-legal-backend.onrender.com/api/autoridad/autoridad/asignar/${demanda.id}`, {
-          autoridad_id: personaId
+          autoridad_id: userData.persona_id  
         });
 
         Swal.fire('¡Caso asignado!', 'La demanda fue asignada exitosamente.', 'success');
