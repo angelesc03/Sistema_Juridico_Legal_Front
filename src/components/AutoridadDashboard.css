@@ -10,6 +10,47 @@ width: 100vw;
     box-sizing: border-box;
 }
 
+.autoridad-header{
+  background-color: #e0f2ff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.autoridad-header h1 {
+  font-size: 24px;
+  color: #0077cc;
+  margin-bottom: 20px;
+}
+
+/*Menú del header para la autoridad judicial*/
+.autoridad-menu {
+   display: flex;
+    gap: 10px;
+}
+
+.menu-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #005ecb;
+}
+
+.menu-button.active {
+    background-color: #004a9e;
+}
+
+
+/*Contenido del resto de la página*/
 .autoridad-tabs {
   display: flex;
   gap: 10px;

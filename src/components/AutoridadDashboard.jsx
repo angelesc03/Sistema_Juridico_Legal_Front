@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './AutoridadDashboard.css';
@@ -7,11 +8,21 @@ const AutoridadDashboard = () => {
   const [activeTab, setActiveTab] = useState('pendientes');
   const [demandasPendientes, setDemandasPendientes] = useState([]);
   const [casosActivos, setCasosActivos] = useState([]);
+  const [autoridadNombre, setAutoridadNombre] = useState('');
 
   const userData = JSON.parse(localStorage.getItem('userData'));
   const personaId = userData?.persona_id;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // obtener el nombre de la autoridad judicial del localstorage
+    //const userData
+
+    if (!userData || userData.rol_id !== 1) {
+      navigate('/login');
+      return; 
+    }
+    setAutoridadNombre(userData.nombre_completo);
     obtenerDemandasPendientes();
     obtenerCasosActivos();
   }, []);
@@ -62,10 +73,22 @@ const AutoridadDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    navigate('/login');
+  }
+
   return (
     <div className="autoridad-dashboard">
-      <h1>Bienvenido(a), Autoridad Judicial</h1>
-      <div className="autoridad-tabs">
+      <div className = 'autoridad-header'>
+        <h1>Autoridad Judicial: {autoridadNombre}</h1>
+        <div className='autoridad-menu'>
+            <button className="menu-button active">Demandas pendientes</button>
+            <button className="menu-button" onClick={handleLogout}>Cerrar Sesión</button>
+        </div>
+      </div>
+      {/* A partir de aquí es donde comienza la parte de la administración */}
+      <div className="autoridad-tabs"> 
         <button className={activeTab === 'pendientes' ? 'active' : ''} onClick={() => setActiveTab('pendientes')}>
           Demandas pendientes
         </button>
